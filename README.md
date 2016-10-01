@@ -3,7 +3,7 @@ Simple Windows file integrity checker.
 
 Can be used to create a baseline file to store hashes of [file names : content] and to check the intergrity of the files stored in the baseline file.    
 
-winteg_checker.py -h  
+`winteg_checker.py -h`  
 usage: winteg_checker.py [-h] [-b [BASELINE]] [-c [CHECKER]] [-d DIRECTORY]  
 
 optional arguments:  
