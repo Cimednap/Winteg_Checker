@@ -56,7 +56,7 @@ def getOptions():
 
     return base, check, path
     
-    #TODO --> Add in a requirement so that if you specify the creation of a baseline, that you also must specify a directory
+    #TODO --> Add in a requirement so that if you specify the creation of a baseline, that you must specify a directory
 
     
     
