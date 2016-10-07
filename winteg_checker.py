@@ -2,14 +2,15 @@
 #Matt Hart
 #9/30/2016
 
-import datetime							#import datetime  module for prettier time outputs
-import os                       		#import os module for os.walk function
-import hashlib                      	#import hashlib module for those juicy hash digests
+import datetime						#import datetime  module for prettier time outputs
+import os                       			#import os module for os.walk function
+import hashlib                      			#import hashlib module for those juicy hash digests
 import errno		         			#import errno  module for error handling
-#import system 							#import system module for handling system calls
+#import system 						#import system module for handling system calls
 from winteg_func import *				#import winteg functions for various uses
-from termcolor import colored           #import termcolor to make things pretty
+from termcolor import colored           		#import termcolor to make things pretty
 import colorama
+import time
 
 def main():
 	
@@ -48,15 +49,23 @@ def main():
                 data[parsed[0]] = parsed[1]
             #hash files listed in baseline file, store in $tempHash
             for key in data.keys():
-                tempHash = hashFile(key)
-                #increment checked file count
-                checkedFiles = checkedFiles + 1
-                #check to see if $tempHash differs from baseline hash for file
-                if tempHash == data[key].rstrip('\n'):
-                    print colored("[+]File: " + key + " integrity is confirmed.", 'green')
-                else:
-                    print colored("[!]File: " + key + " has been comprimised!", 'red')
-        print "Number of files checked: " + str(checkedFiles)
+				#Get the Modified Time in epoch format 
+				details = os.stat(key)
+				mTime = details.st_mtime
+				#convert epoch time to more human readable format
+				pmTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mTime))
+				tempHash = hashFile(key)
+				#increment checked file count
+				checkedFiles = checkedFiles + 1
+			#check to see if $tempHash differs from baseline hash for file
+				if tempHash == data[key].rstrip('\n'):
+					#alert user file is clean
+					print colored("[+]File: " + key + " integrity is confirmed.", 'green')
+				else:
+					#alert user file has been comprimised. print pmTime
+					print colored("[!]File: " + key + " has been comprimised!", 'red')
+					print colored("[*]Modification time: " + str(pmTime), 'cyan')
+	print "Number of files checked: " + str(checkedFiles)
     
 if __name__ == '__main__':
     main()
