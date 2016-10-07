@@ -49,22 +49,22 @@ def main():
                 data[parsed[0]] = parsed[1]
             #hash files listed in baseline file, store in $tempHash
             for key in data.keys():
-				#Get the Modified Time in epoch format 
-				details = os.stat(key)
-				mTime = details.st_mtime
-				#convert epoch time to more human readable format
-				pmTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mTime))
-				tempHash = hashFile(key)
-				#increment checked file count
-				checkedFiles = checkedFiles + 1
-			#check to see if $tempHash differs from baseline hash for file
-				if tempHash == data[key].rstrip('\n'):
-					#alert user file is clean
-					print colored("[+]File: " + key + " integrity is confirmed.", 'green')
-				else:
-					#alert user file has been comprimised. print pmTime
-					print colored("[!]File: " + key + " has been comprimised!", 'red')
-					print colored("[*]Modification time: " + str(pmTime), 'cyan')
+		#Get the Modified Time in epoch format 
+		details = os.stat(key)
+		mTime = details.st_mtime
+		#convert epoch time to more human readable format
+		pmTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(mTime))
+		tempHash = hashFile(key)
+		#increment checked file count
+		checkedFiles = checkedFiles + 1
+		#check to see if $tempHash differs from baseline hash for file
+		if tempHash == data[key].rstrip('\n'):
+			#alert user file is clean
+			print colored("[+]File: " + key + " integrity is confirmed.", 'green')
+		else:
+			#alert user file has been comprimised. print pmTime
+			print colored("[!]File: " + key + " has been comprimised!", 'red')
+			print colored("[*]Modification time: " + str(pmTime), 'cyan')
 	print "Number of files checked: " + str(checkedFiles)
     
 if __name__ == '__main__':
